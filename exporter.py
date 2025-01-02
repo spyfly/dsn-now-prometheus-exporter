@@ -126,6 +126,7 @@ def parse_data(data):
             # Parse communication metrics
             for comm in dish['comms']:
                 spacecraft = comm.get('spacecraft', 'unknown')
+                name = comm.get('name', 'unknown')
                 comm_type = comm['type']
 
                 # Handle signal metrics
@@ -153,15 +154,15 @@ def parse_data(data):
                 if comm_type == 'target':
                     if comm.get('uplegRange'):
                         upleg_range = float(comm['uplegRange'])
-                        gauge_upleg_range.labels(station=station_name, dish=dish_name, spacecraft=spacecraft, timestamp=timestamp).set(upleg_range)
+                        gauge_upleg_range.labels(station=station_name, dish=dish_name, spacecraft=name, timestamp=timestamp).set(upleg_range)
 
                     if comm.get('downlegRange'):
                         downleg_range = float(comm['downlegRange'])
-                        gauge_downleg_range.labels(station=station_name, dish=dish_name, spacecraft=spacecraft, timestamp=timestamp).set(downleg_range)
+                        gauge_downleg_range.labels(station=station_name, dish=dish_name, spacecraft=name, timestamp=timestamp).set(downleg_range)
 
                     if comm.get('rtlt'):
                         rtlt = float(comm['rtlt'])
-                        gauge_rtlt.labels(station=station_name, dish=dish_name, spacecraft=spacecraft, timestamp=timestamp).set(rtlt)
+                        gauge_rtlt.labels(station=station_name, dish=dish_name, spacecraft=name, timestamp=timestamp).set(rtlt)
 
 def main():
     # Start the Prometheus HTTP server on port 8000
